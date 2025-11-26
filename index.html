@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Super Liga – Panel</title>
+<style>
+:root{
+  --bg:#0b1020; --panel:#0f1724; --muted:#9aa4ad;
+  --accent1:#ff5c8a; --accent2:#7c5cff; --accent3:#00d4ff; --accent4:#7cff6b;
+  --card:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  font-family: Inter, sans-serif;
+}
+*{box-sizing:border-box}
+body,html{margin:0;padding:0;background:linear-gradient(180deg,var(--bg),#071028);color:#eef2f7}
+.app{display:flex;min-height:100vh;}
+.sidebar{width:260px;background:linear-gradient(180deg,#071027,#0c1322);padding:20px;border-right:1px solid rgba(255,255,255,0.03);position:sticky;top:0;height:100vh;}
+.logo{font-weight:800;font-size:18px;margin-bottom:16px;color:var(--accent2);}
+.nav{display:flex;flex-direction:column;gap:8px;}
+.nav button{background:transparent;border-radius:10px;border:0;padding:10px 12px;text-align:left;color:var(--muted);display:flex;gap:10px;align-items:center;cursor:pointer;}
+.nav button.active{background:rgba(124,92,255,0.12);color:var(--accent2);box-shadow:0 6px 18px rgba(124,92,255,0.06);}
+.nav button:hover{color:var(--accent3);}
+.main{flex:1;padding:20px;overflow:auto;}
+.header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;}
+.search{background:rgba(255,255,255,0.02);padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);min-width:260px;color:inherit;}
+.controls{display:flex;gap:8px;align-items:center;}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;}
+.card{grid-column:span 12;background:var(--card);padding:12px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.6);}
+.col-8{grid-column:span 8;}
+.col-4{grid-column:span 4;}
+.table-wrap{overflow:auto;border-radius:10px;border:1px solid rgba(255,255,255,0.03);}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:900px;}
+th,td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.02);text-align:left;}
+th{font-size:12px;color:var(--muted);text-transform:uppercase;position:sticky;top:0;background:linear-gradient(180deg,rgba(255,255,255,0.01),rgba(255,255,255,0.00));}
+tr.team-row{cursor:pointer;transition:background .12s;}
+tr.team-row:hover{background:linear-gradient(90deg, rgba(124,92,255,0.06), rgba(0,212,255,0.03));}
+.player-row td{background:rgba(0,0,0,0.15);font-size:13px;}
+.badge{display:inline-block;padding:6px 8px;border-radius:999px;font-weight:700;}
+.badge--pts{background:linear-gradient(90deg,var(--accent4),#a6ffb0);color:#022b00;}
+.badge--goals{background:linear-gradient(90deg,var(--accent3),#8ef0ff);color:#012a2b;}
+.badge--rank{background:linear-gradient(90deg,var(--accent1),#ffb3d1);color:#2b0011;}
+.player-card{display:flex;gap:12px;align-items:center;padding:8px;border-radius:8px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));margin-bottom:8px;flex-wrap:wrap;}
+.player-name{font-weight:700;}
+.small{color:var(--muted);font-size:13px;}
+.header-label{display:inline-block;padding:6px 10px;border-radius:10px;font-weight:700;}
+.h-l-1{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:white;}
+.h-l-2{background:linear-gradient(90deg,var(--accent3),var(--accent4));color:#00221a;}
+
+/* --- Responsywność --- */
+@media (max-width: 768px) {
+  .app { flex-direction: column; }
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    display: flex;
+    overflow-x: auto;
+  }
+  .nav { flex-direction: row; gap:4px; }
+  .main { padding:10px; }
+  table { min-width:600px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+<div id="matchesContainer"></div>
+<aside class="sidebar">
+<div class="logo">⚽ Golden Duck League</div>
+<nav class="nav" id="nav">
+<button data-view="home" class="active">Strona główna</button>
+<button data-view="table">Tabela</button>
+<button data-view="schedule">Terminarz</button>
+<button data-view="teams">Drużyny</button>
+<button data-view="scorers">Strzelcy</button>
+<button data-view="assists">Asysty</button>
+<button data-view="knockout">Faza pucharowa</button>
+<button data-view="results">Mecze rozegrane</button>
+</nav>
+<div style="margin-top:14px;font-size:13px;color:var(--muted)">
+</div>
+</aside>
+<main class="main">
+<div class="header">
+<div>
+<span class="header-label h-l-1">99 zawodników</span>
+<span class="header-label h-l-2" style="margin-left:8px">16 drużyn</span>
+</div>
+<div class="controls">
+</div>
+</div>
+<section id="view-area"></section>
+</main>
+</div>
+<script>
+// ===== Dane =====
+const teams=[
+  {id:1,name:"Antylopy",played:2,wins:2,draws:0,losses:0,goalsFor:4,goalsAgainst:0,points:6,players:[
+    {id:101,name:"Ksawery Szewczyk",goals:3,assists:0},{id:102,name:"Witold Wolski",goals:0,assists:0},
+    {id:103,name:"Ricardo Irzykowski",goals:1,assists:2},{id:104,name:"Kuba Bartosik",goals:0,assists:1},
+    {id:105,name:"Jan Bronikowski",goals:0,assists:0},{id:106,name:"Antoni Głowiński",goals:0,assists:0},
+    ]},
+  {id:2,name:"Dziki ",played:2,wins:1,draws:0,losses:1,goalsFor:5,goalsAgainst:5,points:3,players:[
+    {id:201,name:"Adam Balcerzak",goals:2,assists:0},{id:202,name:"Szymon Jeżyński",goals:0,assists:0},
+    {id:203,name:"Bartek Dzikowski",goals:2,assists:0},{id:204,name:"Kuba Zawiśniewski",goals:0,assists:2},
+    {id:205,name:"Jakub Urbańczyk",goals:0,assists:0},{id:206,name:"Mateusz Gawron",goals:0,assists:0},
+  ]},
+{id:3,name:"Tępe Lisy ",played:2,wins:1,draws:0,losses:1,goalsFor:8,goalsAgainst:2,points:3,players:[
+    {id:301,name:"Kamil Grajczyk",goals:4,assists:1},{id:302,name:"Wojciech Małecki",goals:2,assists:2},
+    {id:303,name:"Mateusz Telega",goals:1,assists:3},{id:304,name:"Igor Nowakowski",goals:0,assists:1},
+    {id:305,name:"Piotr Kukieliński",goals:0,assists:0},{id:306,name:"Andrii  Lafeta",goals:1,assists:0},
+  ]},
+{id:4,name:"Kokoszki ",played:2,wins:1,draws:0,losses:1,goalsFor:6,goalsAgainst:4,points:3,players:[
+    {id:401,name:"Rafał Kobielak",goals:1,assists:2},{id:402,name:"Kacper Gruszczyk",goals:1,assists:0},
+    {id:403,name:"Błażej Nita",goals:1,assists:1},{id:404,name:"Filip Putiatycki",goals:2,assists:0},
+    {id:405,name:"Adam Nowak",goals:0,assists:0},{id:406,name:"Remigiusz  Sobczak",goals:0,assists:0},
+  ]},
+{id:5,name:"Camelo ",played:1,wins:0,draws:1,losses:0,goalsFor:3,goalsAgainst:3,points:1,players:[
+    {id:501,name:"Adam Telega",goals:0,assists:2},{id:502,name:"Łukasz Sołdyński",goals:1,assists:0},
+    {id:503,name:"Łukasz Jankowski",goals:2,assists:1},{id:504,name:"Jakub Dzikowski",goals:0,assists:0},
+    {id:505,name:"Kamil Strzelczyk",goals:0,assists:0},
+  ]},
+{id:6,name:"Żuberki Bisia ",played:1,wins:0,draws:1,losses:0,goalsFor:3,goalsAgainst:3,points:1,players:[
+    {id:601,name:"Kacper Szczepaniak",goals:1,assists:0},{id:602,name:"Mateusz Wojtaszek",goals:2,assists:1},
+    {id:603,name:"Dominik Wieczorek",goals:0,assists:0},{id:604,name:"Eryk  Włodarczyk",goals:0,assists:0},
+    {id:605,name:"Kacper Socki",goals:0,assists:0},{id:606,name:"Michał  Kołaczkowski",goals:0,assists:0},
+    {id:607,name:"Mikołaj Kołaczkowski",goals:0,assists:0},
+  ]},
+{id:7,name:"Fc Żubry",played:2,wins:1,draws:1,losses:0,goalsFor:4,goalsAgainst:2,points:4,players:[
+    {id:701,name:"Hubert Sieradzki",goals:0,assists:1},{id:702,name:"Kuba Dominiak",goals:1,assists:0},
+    {id:703,name:"Kuba Haładyn",goals:0,assists:0},{id:704,name:"Jan  Balcerzak",goals:3,assists:0},
+    {id:705,name:"Leon Mielcarek",goals:0,assists:1},{id:706,name:"Bartosz  Dopierała",goals:0,assists:0},
+]},
+{id:8,name:"Fc Knury",played:1,wins:1,draws:0,losses:0,goalsFor:3,goalsAgainst:0,points:3,players:[
+    {id:801,name:"Wojciech Heresztyn",goals:3,assists:0},{id:802,name:"Oliwier Drzewiecki",goals:0,assists:0},
+    {id:803,name:"Jakub Pasik",goals:0,assists:0},{id:804,name:"Bartek Wichorski",goals:0,assists:0},
+    {id:805,name:"Norbert Medycki",goals:0,assists:1},{id:806,name:"Rafał Wichorski",goals:0,assists:0},
+    {id:807,name:"Adrian Bukowiecki",goals:0,assists:0},
+]},
+{id:9,name:"Tygrysy",played:2,wins:1,draws:0,losses:1,goalsFor:5,goalsAgainst:3,points:3,players:[
+    {id:901,name:"Dima Moroz",goals:2,assists:1},{id:902,name:"Taras Liskoveckyy",goals:1,assists:1},
+    {id:903,name:"Dawid Wichorski",goals:1,assists:0},{id:904,name:"Daniel Strzelczyk",goals:0,assists:1},
+    {id:905,name:"Jakub Piłka",goals:0,assists:0},{id:906,name:"Bartosz Karbowy",goals:0,assists:0},
+]},
+{id:10,name:"Dzikie Kaczki",played:2,wins:1,draws:0,losses:1,goalsFor:4,goalsAgainst:5,points:3,players:[
+    {id:1001,name:"Maciek Skrzypiński",goals:1,assists:3},{id:1002,name:"Jonasz Przybylak",goals:2,assists:0},
+    {id:1003,name:"Wiktor Gruca",goals:1,assists:0},{id:1004,name:"Marcel Łukasik",goals:0,assists:0},
+    {id:1005,name:"Jan Szymański",goals:0,assists:0},{id:1006,name:"Franek Pakuła",goals:0,assists:0},
+]},
+{id:11,name:"Chesterfieldy",played:1,wins:1,draws:0,losses:0,goalsFor:2,goalsAgainst:1,points:3,players:[
+    {id:1101,name:"Patryk Szablewski",goals:0,assists:1},{id:1102,name:"Artur Wypiór",goals:1,assists:1},
+    {id:1103,name:"Mozarivskyi Yehenii",goals:1,assists:0},{id:1104,name:"Krystian Kurzawa",goals:0,assists:0},
+    {id:1105,name:"Seweryn Trzmielewski",goals:0,assists:0},{id:1106,name:"Gracjan Antosik",goals:0,assists:0},
+    {id:1107,name:"Brian Frątczak",goals:0,assists:0}
+]},
+{id:12,name:"Fc Pantery",played:1,wins:0,draws:1,losses:0,goalsFor:1,goalsAgainst:1,points:1,players:[
+    {id:1201,name:"Jakub Gidelski",goals:0,assists:0},{id:1202,name:"Lilianna Kaźmierczak",goals:0,assists:0},
+    {id:1203,name:"Nehemiasz Kurzaj",goals:0,assists:0},{id:1204,name:"Bartosz Łukasik",goals:1,assists:0},
+    {id:1205,name:"Krystian Dzieran",goals:0,assists:1},{id:1206,name:"Szymon Bocian",goals:0,assists:0},
+]},
+{id:13,name:"Lwy",played:2,wins:1,draws:0,losses:1,goalsFor:3,goalsAgainst:3,points:3,players:[
+    {id:1301,name:"Paweł Jasak",goals:0,assists:0},{id:1302,name:"Mateusz Derendal",goals:3,assists:0},
+    {id:1303,name:"Antoni Mielcarek",goals:0,assists:1},{id:1304,name:"Tymek Kałużny",goals:0,assists:0},
+    {id:1305,name:"Wiktor Gawlak",goals:0,assists:0},{id:1306,name:"Łukasz Włodarczyk",goals:0,assists:0},
+]},
+{id:14,name:"Szczupaki",played:1,wins:0,draws:0,losses:1,goalsFor:0,goalsAgainst:3,points:0,players:[
+    {id:1401,name:"Iwan Kaczmarzyński",goals:0,assists:0},{id:1402,name:"Wiktor Tarnowski",goals:0,assists:0},
+    {id:1403,name:"Miłosz Bąkowski",goals:0,assists:0},{id:1404,name:"Hubert Walczak",goals:0,assists:0},
+    {id:1405,name:"Marcel Perliński",goals:0,assists:0},{id:1406,name:"Mateusz Fret",goals:0,assists:0},
+]},
+{id:15,name:"Koty",played:2,wins:0,draws:0,losses:0,goalsFor:0,goalsAgainst:5,points:0,players:[
+    {id:1501,name:"Witek Bączyński",goals:0,assists:0},{id:1502,name:"Aleksander Błaszczyk",goals:0,assists:0},
+    {id:1503,name:"Łukasz Burdelak",goals:0,assists:0},{id:1504,name:"Nikita Boriichuh",goals:0,assists:0},
+    {id:1505,name:"Franek Ćwikliński",goals:0,assists:0},{id:1506,name:"Rafał Szczepaniak",goals:0,assists:0},
+    {id:1507,name:"Szymon Rybarski",goals:0,assists:0},
+]},
+{id:16,name:"Orły",played:2,wins:0,draws:0,losses:0,goalsFor:0,goalsAgainst:10,points:0,players:[
+    {id:1601,name:"Tobiasz Dymkowski",goals:0,assists:0},{id:1602,name:"Kuba Wardziak",goals:0,assists:0},
+    {id:1603,name:"Grzegorz Wolski",goals:0,assists:0},{id:1604,name:"Krystian Siwek",goals:0,assists:0},
+    {id:1605,name:"Oliwier Gajewski",goals:0,assists:0},{id:1606,name:"Ksawery Grzesiak",goals:0,assists:0},
+]},
+
+  // dodaj pozostałe drużyny do 16
+];
+
+// Terminarz (nadchodzące mecze)
+const matches = [
+  // 🟦 KOLEJKA 1
+  {id:1, date:"2025-11-06T10:40:00", home:3, away:16, homeGoals:null, awayGoals:null},
+  {id:2, date:"2025-11-07T10:40:00", home:1, away:15, homeGoals:null, awayGoals:null},
+  {id:3, date:"2025-11-12T10:40:00", home:9, away:10, homeGoals:null, awayGoals:null},
+  {id:4, date:"2025-11-13T10:40:00", home:4, away:2, homeGoals:null, awayGoals:null},
+  {id:5, date:"2025-11-14T10:40:00", home:7, away:12, homeGoals:null, awayGoals:null},
+  {id:6, date:"2025-11-17T10:40:00", home:13, away:11, homeGoals:null, awayGoals:null},
+  {id:7, date:"2025-11-17T10:40:00", home:6, away:5, homeGoals:null, awayGoals:null},
+  {id:8, date:"2025-11-19T10:40:00", home:14, away:8, homeGoals:null, awayGoals:null},
+
+  // 🟦 KOLEJKA 2
+  {id:9, date:"2025-11-20T10:40:00", home:3, away:1, homeGoals:null, awayGoals:null},
+  {id:10, date:"2025-11-21T10:40:00", home:16, away:9, homeGoals:null, awayGoals:null},
+  {id:11, date:"2025-11-24T10:40:00", home:15, away:4, homeGoals:null, awayGoals:null},
+  {id:12, date:"2025-11-25T10:40:00", home:10, away:7, homeGoals:null, awayGoals:null},
+  {id:13, date:"2025-11-26T10:40:00", home:2, away:13, homeGoals:null, awayGoals:null},
+  {id:14, date:"2025-11-27T10:40:00", home:12, away:6, homeGoals:null, awayGoals:null},
+  {id:15, date:"2025-11-28T10:40:00", home:11, away:14, homeGoals:null, awayGoals:null},
+  {id:16, date:"2025-12-01T10:40:00", home:5, away:8, homeGoals:null, awayGoals:null},
+
+  // 🟦 KOLEJKA 3
+  {id:17, date:"2025-12-02T10:40:00", home:3, away:9, homeGoals:null, awayGoals:null},
+  {id:18, date:"2025-12-03T10:40:00", home:16, away:1, homeGoals:null, awayGoals:null},
+  {id:19, date:"2025-12-04T10:40:00", home:15, away:10, homeGoals:null, awayGoals:null},
+  {id:20, date:"2025-12-05T10:40:00", home:4, away:14, homeGoals:null, awayGoals:null},
+  {id:21, date:"2025-12-08T10:40:00", home:2, away:12, homeGoals:null, awayGoals:null},
+  {id:22, date:"2025-12-09T10:40:00", home:13, away:6, homeGoals:null, awayGoals:null},
+  {id:23, date:"2025-12-10T10:40:00", home:11, away:5, homeGoals:null, awayGoals:null},
+  {id:24, date:"2025-12-11T10:40:00", home:7, away:8, homeGoals:null, awayGoals:null},
+
+  // 🟦 KOLEJKA 4
+  {id:25, date:"2025-12-12T10:40:00", home:3, away:4, homeGoals:null, awayGoals:null},
+  {id:26, date:"2025-12-15T10:40:00", home:16, away:15, homeGoals:null, awayGoals:null},
+  {id:27, date:"2025-12-16T10:40:00", home:9, away:2, homeGoals:null, awayGoals:null},
+  {id:28, date:"2025-12-17T10:40:00", home:10, away:13, homeGoals:null, awayGoals:null},
+  {id:29, date:"2025-12-18T10:40:00", home:7, away:11, homeGoals:null, awayGoals:null},
+  {id:30, date:"2025-12-19T10:40:00", home:12, away:5, homeGoals:null, awayGoals:null},
+  {id:31, date:"2026-01-07T10:40:00", home:6, away:14, homeGoals:null, awayGoals:null},
+  {id:32, date:"2026-01-08T10:40:00", home:8, away:1, homeGoals:null, awayGoals:null},
+
+  // 🟦 KOLEJKA 5
+  {id:33, date:"2026-01-09T10:40:00", home:3, away:7, homeGoals:null, awayGoals:null},
+  {id:34, date:"2026-01-12T10:40:00", home:16, away:10, homeGoals:null, awayGoals:null},
+  {id:35, date:"2026-01-13T10:40:00", home:9, away:12, homeGoals:null, awayGoals:null},
+  {id:36, date:"2026-01-14T10:40:00", home:15, away:6, homeGoals:null, awayGoals:null},
+  {id:37, date:"2026-01-15T10:40:00", home:4, away:5, homeGoals:null, awayGoals:null},
+  {id:38, date:"2026-01-16T10:40:00", home:2, away:11, homeGoals:null, awayGoals:null},
+  {id:39, date:"2026-01-19T10:40:00", home:13, away:8, homeGoals:null, awayGoals:null},
+  {id:40, date:"2026-01-20T10:40:00", home:14, away:1, homeGoals:null, awayGoals:null},
+
+  // 🟦 KOLEJKA 6
+  {id:41, date:"2026-01-21T10:40:00", home:3, away:12, homeGoals:null, awayGoals:null},
+  {id:42, date:"2026-01-22T10:40:00", home:16, away:7, homeGoals:null, awayGoals:null},
+  {id:43, date:"2026-01-23T10:40:00", home:9, away:6, homeGoals:null, awayGoals:null},
+  {id:44, date:"2026-01-26T10:40:00", home:10, away:5, homeGoals:null, awayGoals:null},
+  {id:45, date:"2026-01-27T10:40:00", home:15, away:11, homeGoals:null, awayGoals:null},
+  {id:46, date:"2026-01-28T10:40:00", home:4, away:8, homeGoals:null, awayGoals:null},
+  {id:47, date:"2026-01-29T10:40:00", home:2, away:14, homeGoals:null, awayGoals:null},
+  {id:48, date:"2026-01-30T10:40:00", home:13, away:1, homeGoals:null, awayGoals:null},
+
+  // 🟦 KOLEJKA 7
+  {id:49, date:"2026-02-02T10:40:00", home:3, away:6, homeGoals:null, awayGoals:null},
+  {id:50, date:"2026-02-03T10:40:00", home:16, away:5, homeGoals:null, awayGoals:null},
+  {id:51, date:"2026-02-04T10:40:00", home:9, away:11, homeGoals:null, awayGoals:null},
+  {id:52, date:"2026-02-05T10:40:00", home:10, away:8, homeGoals:null, awayGoals:null},
+  {id:53, date:"2026-02-06T10:40:00", home:7, away:14, homeGoals:null, awayGoals:null},
+  {id:54, date:"2026-02-09T10:40:00", home:12, away:1, homeGoals:null, awayGoals:null},
+  {id:55, date:"2026-02-10T10:40:00", home:15, away:2, homeGoals:null, awayGoals:null},
+  {id:56, date:"2026-02-11T10:40:00", home:4, away:13, homeGoals:null, awayGoals:null},
+
+  // 🟦 KOLEJKA 8
+  {id:57, date:"2026-02-12T10:40:00", home:3, away:5, homeGoals:null, awayGoals:null},
+  {id:58, date:"2026-02-13T10:40:00", home:16, away:11, homeGoals:null, awayGoals:null},
+  {id:59, date:"2026-02-16T10:40:00", home:9, away:8, homeGoals:null, awayGoals:null},
+  {id:60, date:"2026-02-17T10:40:00", home:15, away:14, homeGoals:null, awayGoals:null},
+  {id:61, date:"2026-02-18T10:40:00", home:4, away:1, homeGoals:null, awayGoals:null},
+  {id:62, date:"2026-02-19T10:40:00", home:12, away:13, homeGoals:null, awayGoals:null},
+  {id:63, date:"2026-02-20T10:40:00", home:10, away:6, homeGoals:null, awayGoals:null},
+  {id:64, date:"2026-02-23T10:40:00", home:7, away:2, homeGoals:null, awayGoals:null},
+];
+
+
+// Mecze rozegrane
+const playedMatches=[
+  // KOLEJKA 1
+ {
+  id: 1,
+  date: "2025-11-06T10:40:00",
+  home: 3,
+  away: 16,
+  homeGoals: 8,
+  awayGoals: 0,
+  events: [
+    { minute: 1, playerId: 302, assistId: 303 }, // Wojciech Małecki asysta Mateusz Telega
+    { minute: 2, playerId: 301, assistId: 302 }, // Kamil Grajczyk asysta Wojciech Małecki
+    { minute: 3, playerId: 303, assistId: 302 }, // Mateusz Telega asysta Wojciech Małecki
+    { minute: 4, playerId: 301, assistId: 303 }, // Kamil Grajczyk asysta Mateusz Telega
+    { minute: 5, playerId: 301, assistId: 303 }, // Kamil Grajczyk asysta Mateusz Telega
+    { minute: 5, playerId: 306, assistId: 301 }, // Andrii Lafeta asysta Kamil Grajczyk
+    { minute: 5, playerId: 301, assistId: 304 }, // Kamil Grajczyk asysta Igor Nowakowski
+    { minute: 7, playerId: 302, assistId: null } // Wojciech Małecki bez asysty
+  ]
+},
+ {
+  id: 2,
+  date: "2025-11-07T10:40:00",
+  home: 1,
+  away: 15,
+  homeGoals: 2,
+  awayGoals: 0,
+  events: [
+    { minute: 3, playerId: 101, assistId: 103 }, // Ksawery Szewczyk asysta Ricardo Irzykowski
+    { minute: 6, playerId: 101, assistId: null } // Ksawery Szewczyk bez asysty
+  ]
+},
+{
+  id: 3,
+  date: "2025-11-12T10:40:00",
+  home: 9,
+  away: 10,
+  homeGoals: 2,
+  awayGoals: 3,
+  events: [
+    { minute: 2, playerId: 903, assistId: 901 }, // Dawid Wichorski asysta Dima Moroz
+    { minute: 4, playerId: 1003, assistId: 1001 }, // Wiktor Gruca asysta Maciek Skrzypiński
+    { minute: 4, playerId: 901, assistId: 902 }, // Dima Moroz asysta Taras Liskoveckyy
+    { minute: 5, playerId: 1001, assistId: null }, // Maciek Skrzypiński bez asysty
+    { minute: 6, playerId: 1002, assistId: 1001 } // Jonasz Przybylak asysta Maciek Skrzypiński
+  ]
+},
+ {
+  id: 4,
+  date: "2025-11-13T10:40:00",
+  home: 4,
+  away: 2,
+  homeGoals: 3,
+  awayGoals: 4,
+  events: [
+    { minute: 1, playerId: 403, assistId: null }, // Błażej Nita bez asysty
+    { minute: 1, playerId: 201, assistId: 204 }, // Adam Balcerzak asysta Jakub Zawiśniewski
+    { minute: 2, playerId: 201, assistId: 204 }, // Adam Balcerzak asysta Jakub Zawiśniewski
+    { minute: 3, playerId: 404, assistId: 401 }, // Filip Putiatycki asysta Rafał Kobielak
+    { minute: 3, playerId: 203, assistId: null }, // Bartek Dzikowski bez asysty
+    { minute: 6, playerId: 203, assistId: null }, // Bartek Dzikowski bez asysty
+    { minute: 8, playerId: 404, assistId: 401 }  // Filip Putiatycki asysta Rafał Kobielak
+  ]
+},
+
+{
+  id: 5,
+  date: "2025-11-14T10:40:00",
+  home: 7,
+  away: 12,
+  homeGoals: 1,
+  awayGoals: 1,
+  events: [
+    { minute: 1, playerId: 704, assistId: 705 }, // Jan Balcerzak asysta Leon Mielcarek
+    { minute: 6, playerId: 1204, assistId: 1205 } // Bartosz Łukasik asysta Krystian Dzieran
+  ]
+},
+{
+  id: 6,
+  date: "2025-11-17T10:40:00",
+  home: 13,
+  away: 11,
+  homeGoals: 1,
+  awayGoals: 2,
+  events: [
+    { minute: 3, playerId: 1102, assistId: 1101 }, // Artur Wypiór asysta Patryk Szablewski
+    { minute: 5, playerId: 1103, assistId: 1102 }, // Mozarivskyi Yehenii asysta Artur Wypiór
+    { minute: 7, playerId: 1302, assistId: null }  // Mateusz Derendal bez asysty
+  ]
+},
+{
+  id: 7,
+  date: "2025-11-17T13:20:00",
+  home: 6,
+  away: 5,
+  homeGoals: 3,
+  awayGoals: 3,
+  events: [
+    { minute: 2, playerId: 503, assistId: 501 }, // Łukasz Jankowski asysta Adam Telega
+    { minute: 4, playerId: 502, assistId: 503 }, // Łukasz Sołdyński asysta Łukasz Jankowski
+    { minute: 5, playerId: 503, assistId: 501 }, // Łukasz Jankowski asysta Adam Telega
+    { minute: 6, playerId: 601, assistId: 602 }, // Kacper Szczepaniak asysta Mateusz Wojtaszek
+    { minute: 7, playerId: 602, assistId: null }, // Mateusz Wojtaszek bez asysty
+    { minute: 8, playerId: 602, assistId: null }  // Mateusz Wojtaszek bez asysty
+  ]
+},
+
+  {
+    id:8, date:"2025-11-19T10:40:00", home:14, away:8, homeGoals:0, awayGoals:3,
+    events:[
+      {minute:6, playerId:801},               // Damian Kowal (804)
+      {minute:6, playerId:801},               // Aleks Rataj (806)
+      {minute:8, playerId:801, assistId:805}  // Sebastian Król (803), asysta Oskar (805)
+    ]
+  },
+
+  // KOLEJKA 2 (pierwsze 4 mecze)
+ {
+  id: 9,
+  date: "2025-11-22T10:40:00",
+  home: 3,
+  away: 1,
+  homeGoals: 0,
+  awayGoals: 2,
+  events: [
+    { minute: 2, playerId: 103, assistId: 104 }, // Ricardo Irzykowski asysta Kuba Bartosik
+    { minute: 6, playerId: 101, assistId: 103 }  // Ksawery Szewczyk asysta Ricardo Irzykowski
+  ]
+},
+{
+  id: 10,
+  date: "2025-11-23T10:40:00",
+  home: 16,
+  away: 9,
+  homeGoals: 0,
+  awayGoals: 2,
+  events: [
+    { minute: 5, playerId: 902, assistId: null }, // Taras Liskoveckyy bez asysty
+    { minute: 7, playerId: 901, assistId: 904 }  // Dima Moroz asysta Daniel Strzelczyk
+  ]
+},
+{
+  id: 11,
+  date: "2025-11-24T16:00:00",
+  home: 15,
+  away: 4,
+  homeGoals: 0,
+  awayGoals: 3,
+  events: [
+    { minute: 3, playerId: 1503, assistId: null, ownGoal: true }, // Łukasz Burdelak samobój
+    { minute: 5, playerId: 402, assistId: null },                  // Kacper Gruszczyk bez asysty
+    { minute: 7, playerId: 401, assistId: 403 }                   // Rafał Kobielak asysta Błażej Nita
+  ]
+},
+{
+  id: 12,
+  date: "2025-11-25T10:40:00",
+  home: 10,
+  away: 7,
+  homeGoals: 1,
+  awayGoals: 3,
+  events: [
+    { minute: 2, playerId: 702, assistId: 701 }, // Kuba Dominiak asysta Hubert Sieradzki
+    { minute: 6, playerId: 704, assistId: null }, // Jan Balcerzak bez asysty
+    { minute: 6, playerId: 704, assistId: null }, // Jan Balcerzak bez asysty (drugi gol)
+    { minute: 8, playerId: 1002, assistId: 1001 } // Jonasz Przybylak asysta Maciek Skrzypiński
+  ]
+},
+{
+  id: 13,
+  date: "2025-11-26T10:40:00",
+  home: 2,
+  away: 13,
+  homeGoals: 1,
+  awayGoals: 2,
+  events: [
+    { minute: 4, playerId: 206, assistId: null }, // Mateusz Gawron bez asysty
+    { minute: 6, playerId: 1302, assistId: null }, // Mateusz Derendal bez asysty
+    { minute: 8, playerId: 1302, assistId: 1303 }  // Mateusz Derendal asysta Antoni Mielcarek
+  ]
+}
+];
+
+// ===== Funkcje =====
+function getTeamById(id){ return teams.find(t=>t.id===id)||{name:'--',players:[]}; }
+function formatDate(iso){ const d=new Date(iso); return d.toLocaleString('pl-PL',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
+const viewArea=document.getElementById('view-area');
+
+function showView(name){
+  document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===name));
+  if(name==='home') renderHome();
+  if(name==='table') renderTable();
+  if(name==='schedule') renderSchedule();
+  if(name==='teams') renderTeams();
+  if(name==='scorers') renderScorers();
+  if(name==='assists') renderAssists();
+  if(name==='knockout') renderKnockout();
+  if(name==='results') renderResults();
+}
+document.getElementById('nav').addEventListener('click',e=>{if(e.target.dataset&&e.target.dataset.view)showView(e.target.dataset.view);});
+showView('home');
+
+// --- Render funkcje ---
+function renderHome(){
+  const topS=teams.flatMap(t=>t.players).sort((a,b)=>b.goals-a.goals).slice(0,3);
+  const topA=teams.flatMap(t=>t.players).sort((a,b)=>b.assists-a.assists).slice(0,3);
+  const ups=matches.slice(0,3);
+  viewArea.innerHTML=`
+  <div class="grid">
+    <div class="col-8 card">
+      <h3>Strona główna</h3>
+      <h4>Top 3 strzelców</h4>
+      ${topS.map((p,i)=>`<div class="player-card"><div class="badge badge--rank">${i+1}</div><div><div class="player-name">${p.name}</div><div class="small">${getTeamById(Math.floor(p.id/100)).name}</div></div><div style="margin-left:auto" class="badge badge--goals">${p.goals} ⚽</div></div>`).join('')}
+      <h4 style="margin-top:12px">Top 3 asyst</h4>
+      ${topA.map((p,i)=>`<div class="player-card"><div class="badge badge--rank">${i+1}</div><div><div class="player-name">${p.name}</div><div class="small">${getTeamById(Math.floor(p.id/100)).name}</div></div><div style="margin-left:auto" class="badge badge--goals">${p.assists} 🅰️</div></div>`).join('')}
+    </div>
+  </div>`;
+}
+
+// Funkcja renderTable z uwzględnieniem bilansu przy równych punktach i rozwijaniem zawodników
+function renderTable(){
+  const sortedTeams = [...teams].sort((a,b)=>b.points===a.points?(b.goalsFor-b.goalsAgainst)-(a.goalsFor-a.goalsAgainst):b.points-a.points);
+  const tableRows = sortedTeams.map((t,index)=>`
+    <tr class="team-row" onclick="togglePlayers(${t.id})">
+      <td>${index+1}</td><td>${t.name}</td><td>${t.played}</td><td>${t.wins}</td><td>${t.draws}</td><td>${t.losses}</td><td>${t.goalsFor} - ${t.goalsAgainst}</td><td>${t.points}</td>
+    </tr>
+    <tr id="players-${t.id}" style="display:none;">
+      <td colspan="8">
+        ${t.players.map(p=>`<div class="player-card"><div class="player-name">${p.name}</div><div style="margin-left:auto">${p.goals}⚽ ${p.assists}🅰️</div></div>`).join('')}
+      </td>
+    </tr>`).join('');
+  viewArea.innerHTML=`
+    <div class="card table-wrap">
+      <h3>Pełna tabela ligi (kliknij drużynę, aby zobaczyć zawodników)</h3>
+      <table>
+        <thead>
+          <tr><th>Miejsce</th><th>Drużyna</th><th>M</th><th>W</th><th>R</th><th>P</th><th>Bilans</th><th>Punkty</th></tr>
+        </thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>`;
+}
+function togglePlayers(id){
+  const row=document.getElementById(`players-${id}`);
+  if(row) row.style.display=row.style.display==='none'?'table-row':'none';
+}
+
+function renderSchedule(){
+  // Grupowanie meczów po kolejce
+  const rounds = {};
+  matches.forEach(m => {
+    const roundNum = Math.ceil(m.id / 8); // 8 meczów na kolejkę
+    if(!rounds[roundNum]) rounds[roundNum] = [];
+    rounds[roundNum].push(m);
+  });
+
+  // Generowanie HTML
+  let html = '<div class="card"><h3>Terminarz</h3>';
+  for(const round in rounds){
+    html += `<h4>Kolejka ${round}</h4>`;
+    rounds[round].forEach(m => {
+      html += `<div class="player-card">
+        <strong>${getTeamById(m.home).name}</strong> vs <strong>${getTeamById(m.away).name}</strong> 
+        - <span class="small">${formatDate(m.date)}</span>
+      </div>`;
+    });
+  }
+  html += '</div>';
+
+  viewArea.innerHTML = html;
+}
+
+
+function renderTeams(){
+  viewArea.innerHTML=`<div class="card"><h3>Drużyny</h3>${teams.map(t=>`<div class="player-card" onclick="togglePlayers(${t.id})"><div class="player-name">${t.name}</div></div><div id="players-${t.id}" style="display:none;padding-left:10px">${t.players.map(p=>`<div>${p.name} - ${p.goals}⚽ ${p.assists}🅰️</div>`).join('')}</div>`).join('')}</div>`;
+}
+
+function renderScorers(){
+  const topS = teams.flatMap(t => t.players.filter(p => p.goals > 0))
+                     .sort((a,b) => b.goals - a.goals);
+  let rank = 0;
+  let lastGoals = null;
+  let denseRank = 0;
+
+  viewArea.innerHTML = `
+    <div class="card">
+      <h3>Strzelcy</h3>
+      ${topS.map((p)=>{
+        if(p.goals !== lastGoals){
+          denseRank++;
+          lastGoals = p.goals;
+        }
+        return `<div class="player-card">
+          <div class="badge badge--rank">${denseRank}</div>
+          <div>
+            <div class="player-name">${p.name}</div>
+            <div class="small">${getTeamById(Math.floor(p.id/100)).name}</div>
+          </div>
+          <div style="margin-left:auto" class="badge badge--goals">${p.goals} ⚽</div>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+
+function renderAssists(){
+  const topA = teams.flatMap(t => t.players.filter(p => p.assists > 0))
+                     .sort((a,b) => b.assists - a.assists);
+  let denseRank = 0;
+  let lastAssists = null;
+
+  viewArea.innerHTML = `
+    <div class="card">
+      <h3>Asysty</h3>
+      ${topA.map((p)=>{
+        if(p.assists !== lastAssists){
+          denseRank++;
+          lastAssists = p.assists;
+        }
+        return `<div class="player-card">
+          <div class="badge badge--rank">${denseRank}</div>
+          <div>
+            <div class="player-name">${p.name}</div>
+            <div class="small">${getTeamById(Math.floor(p.id/100)).name}</div>
+          </div>
+          <div style="margin-left:auto" class="badge badge--goals">${p.assists} 🅰️</div>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+function groupByRound(matches) {
+  const rounds = {};
+
+  matches.forEach((m, index) => {
+    const round = Math.floor(index / 8) + 1; // 8 meczów = 1 kolejka
+    if (!rounds[round]) rounds[round] = [];
+    rounds[round].push(m);
+  });
+
+  return rounds;
+}
+
+
+
+
+function renderKnockout(){
+  viewArea.innerHTML=`<div class="card"><h3>Faza pucharowa</h3><p style="padding:10px;font-style:italic;">Wkrótce – faza pucharowa zostanie uruchomiona po zakończeniu ligi.</p></div>`;
+function getUpcomingMatches(count = 3) {
+  const today = new Date(26.1);
+
+  const upcoming = matches
+    .filter(m => new Date(m.date) >= today)   // mecze w przyszłości lub dziś
+    .sort((a, b) => new Date(a.date) - new Date(b.date)) // najbliższe pierwsze
+    .slice(0, count);  // np. 3 najbliższe
+
+  return upcoming;
+}
+function renderUpcoming() {
+  const upcoming = getUpcomingMatches(3);
+
+  viewArea.innerHTML = `
+    <div class="card">
+      <h3>Najbliższe mecze</h3>
+
+      ${upcoming.map(m => `
+        <div class="player-card">
+          <strong>${getTeamById(m.home).name}</strong> vs <strong>${getTeamById(m.away).name}</strong>
+          <span style="margin-left:auto;" class="small">${formatDate(m.date)}</span>
+        </div>
+      `).join("")}
+
+    </div>
+  `;
+}
+function getNextMatches(number = 3) {
+  const now = new Date(); // aktualna data i godzina z komputera
+  const futureMatches = matches.filter(m => new Date(m.date) > now); // tylko mecze w przyszłości
+  futureMatches.sort((a, b) => new Date(a.date) - new Date(b.date)); // sortowanie od najbliższego
+  return futureMatches.slice(0, number); // bierzemy np. 3 najbliższe mecze
+}
+function renderNextMatches() {
+  const nextMatches = getNextMatches(3); // tu możesz zmienić ile meczów pokazać
+  let html = `<div class="card"><h3>Najbliższe mecze</h3>`;
+  
+  nextMatches.forEach(m => {
+    const homeTeam = getTeamById(m.home);
+    const awayTeam = getTeamById(m.away);
+    html += `<div class="player-card">
+               <strong>${homeTeam.name}</strong> vs <strong>${awayTeam.name}</strong> 
+               - <span class="small">${formatDate(m.date)}</span>
+             </div>`;
+  });
+  
+  html += `</div>`;
+  viewArea.innerHTML = html;
+}
+}
+function renderResults() {
+  const rounds = groupByRound(playedMatches);
+
+  viewArea.innerHTML = `
+    <div class="card">
+      <h3>Mecze rozegrane</h3>
+
+      ${Object.keys(rounds).map(round => `
+        
+        <h2 style="margin-top:20px;margin-bottom:10px;">
+          Kolejka ${round}
+        </h2>
+
+        ${rounds[round].map(m => {
+          const homeTeam = getTeamById(m.home);
+          const awayTeam = getTeamById(m.away);
+
+          return `
+            <div class="player-card" 
+                 style="flex-direction:column;align-items:flex-start;margin-bottom:10px;">
+              
+              <div>
+                <strong>${homeTeam.name}</strong> ${m.homeGoals} - ${m.awayGoals} 
+                <strong>${awayTeam.name}</strong>
+              </div>
+
+              <div class="small">${formatDate(m.date)}</div>
+
+              <div style="margin-top:5px">
+                ${m.events.map(e => {
+                  const scorer = teams.flatMap(t=>t.players).find(pl => pl.id === e.playerId);
+                  const assist = e.assistId 
+                      ? teams.flatMap(t=>t.players).find(pl => pl.id === e.assistId)
+                      : null;
+
+                  return `
+                    <div${e.ownGoal ? ' class="ownGoal"' : ''}>
+                      ${scorer ? scorer.name : '?'} - ${e.minute}' 
+                      ${e.ownGoal 
+                        ? '(samobój)' 
+                        : assist 
+                          ? `(asysta: ${assist.name})` 
+                          : ''
+                      }
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+
+            </div>
+          `;
+        }).join("")}
+
+      `).join("")}
+
+    </div>
+  `;
+}
+renderNextMatches(); // pokaże od razu najbliższe mecze po załadowaniu strony
+</script>
+</body>
+</html>
+
+
+
+
