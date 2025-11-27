@@ -448,7 +448,25 @@ const playedMatches=[
     { minute: 6, playerId: 1302, assistId: null }, // Mateusz Derendal bez asysty
     { minute: 8, playerId: 1302, assistId: 1303 }  // Mateusz Derendal asysta Antoni Mielcarek
   ]
+},
+  {
+  id: 14,
+  date: "2025-11-27T10:40:00",
+  home: 6, // Żuberki Bisia
+  away: 12, // Fc Pantery
+  homeGoals: 4,
+  awayGoals: 3,
+  events: [
+    { minute: 2, playerId: 601, assistId: 605 }, // Kacper Szczepaniak asysta Kacper Socki
+    { minute: 4, playerId: 601, assistId: 604 }, // Kacper Szczepaniak asysta Eryk Włodarczyk
+    { minute: 4, playerId: 1205, assistId: 1201 }, // Krystian Dzieran asysta Kuba Gidelski
+    { minute: 5, playerId: 605, assistId: 601 }, // Kacper Socki asysta Kacper Szczepaniak
+    { minute: 6, playerId: 604, assistId: 601 }, // Eryk Włodarczyk asysta Kacper Szczepaniak
+    { minute: 6, playerId: 1201, assistId: null }, // Kuba Gidelski bez asysty
+    { minute: 7, playerId: 1205, assistId: null }  // Krystian Dzieran bez asysty
+  ]
 }
+
 ];
 
 // ===== Funkcje =====
@@ -728,6 +746,7 @@ renderNextMatches(); // pokaże od razu najbliższe mecze po załadowaniu strony
 </script>
 </body>
 </html>
+
 
 
 
