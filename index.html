@@ -477,16 +477,19 @@ const playedMatches=[
   awayGoals: 0,
   events: []
 },
-{
+  {
   id:16,
-  date:"2025-12-01T10:40:00",
-  home:4,
-  away:14,
-  homeGoals:2,
-  awayGoals:0,
+  date:"2025-12-05T10:40:00",
+  home:5, // Camelo
+  away:8, // FC Knury
+  homeGoals:4,
+  awayGoals:1,
   events:[
-    {minute:6, playerId:401, assistId:404}, // Rafał Kobielak – asysta Filip Putiatycki
-    {minute:7, playerId:401, assistId:402}, // Rafał Kobielak – asysta Kacper Gruszczyk
+    {minute:2, playerId:503, assistId:506}, // Łukasz Jankowski – asysta Wiktor Górski
+    {minute:3, playerId:503, assistId:501}, // Łukasz Jankowski – asysta Adam Telega
+    {minute:4, playerId:503, assistId:506}, // Łukasz Jankowski – asysta Wiktor Górski
+    {minute:5, playerId:501},               // Adam Telega – bez asysty
+    {minute:7, playerId:801},               // Wojciech Heresztyn – bez asysty
   ]
 },
 {
@@ -529,19 +532,16 @@ const playedMatches=[
     {minute:6, playerId:1603, assistId:1606}, // Konrad Jacuszczak – asysta Ksawery Grzesiak
   ]
 },
-  {
+{
   id:20,
-  date:"2025-12-05T10:40:00",
-  home:5, // Camelo
-  away:8, // FC Knury
-  homeGoals:4,
-  awayGoals:1,
+  date:"2025-12-01T10:40:00",
+  home:4,
+  away:14,
+  homeGoals:2,
+  awayGoals:0,
   events:[
-    {minute:2, playerId:503, assistId:506}, // Łukasz Jankowski – asysta Wiktor Górski
-    {minute:3, playerId:503, assistId:501}, // Łukasz Jankowski – asysta Adam Telega
-    {minute:4, playerId:503, assistId:506}, // Łukasz Jankowski – asysta Wiktor Górski
-    {minute:5, playerId:501},               // Adam Telega – bez asysty
-    {minute:7, playerId:801},               // Wojciech Heresztyn – bez asysty
+    {minute:6, playerId:401, assistId:404}, // Rafał Kobielak – asysta Filip Putiatycki
+    {minute:7, playerId:401, assistId:402}, // Rafał Kobielak – asysta Kacper Gruszczyk
   ]
 },
 {
@@ -853,6 +853,7 @@ renderNextMatches(); // pokaże od razu najbliższe mecze po załadowaniu strony
 </script>
 </body>
 </html>
+
 
 
 
