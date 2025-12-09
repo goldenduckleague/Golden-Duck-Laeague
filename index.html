@@ -473,13 +473,13 @@ const playedMatches=[
   date: "2025-12-01T10:40:00",
   home: 11,
   away: 14,
-  homeGoals: 2,
+  homeGoals: 0,
   awayGoals: 0,
   events: []
 },
 {
   id:16,
-  date:"2025-11-28T10:40:00",
+  date:"2025-12-01T10:40:00",
   home:4,
   away:14,
   homeGoals:2,
@@ -491,7 +491,7 @@ const playedMatches=[
 },
 {
   id:17,
-  date:"2025-11-28T10:40:00",
+  date:"2025-12-02T10:40:00",
   home:3,
   away:9,
   homeGoals:4,
@@ -506,7 +506,7 @@ const playedMatches=[
 },
 {
   id:18,
-  date:"2025-11-28T10:40:00",
+  date:"2025-12-03T10:40:00",
   home:15, // Koty
   away:10, // Dzikie Kaczki
   homeGoals:2,
@@ -515,6 +515,62 @@ const playedMatches=[
     {minute:4, playerId:1502}, // Łukasz Błaszczyk – Koty – bez asysty
     {minute:6, playerId:1002, assistId:1001}, // Jonasz Przybylak – asysta Maciek Skrzypiński
     {minute:8, playerId:1503}, // Łukasz Burdelak – Koty – bez asysty
+  ]
+},
+{
+  id:19,
+  date:"2025-12-04T10:40:00",
+  home:1, // Antylopy
+  away:16, // Orły
+  homeGoals:1,
+  awayGoals:1,
+  events:[
+    {minute:5, playerId:101, assistId:103}, // Ksawery Szewczyk – asysta Ricardo Ikrzykowski
+    {minute:6, playerId:1603, assistId:1606}, // Konrad Jacuszczak – asysta Ksawery Grzesiak
+  ]
+},
+  {
+  id:20,
+  date:"2025-12-05T10:40:00",
+  home:5, // Camelo
+  away:8, // FC Knury
+  homeGoals:4,
+  awayGoals:1,
+  events:[
+    {minute:2, playerId:503, assistId:506}, // Łukasz Jankowski – asysta Wiktor Górski
+    {minute:3, playerId:503, assistId:501}, // Łukasz Jankowski – asysta Adam Telega
+    {minute:4, playerId:503, assistId:506}, // Łukasz Jankowski – asysta Wiktor Górski
+    {minute:5, playerId:501},               // Adam Telega – bez asysty
+    {minute:7, playerId:801},               // Wojciech Heresztyn – bez asysty
+  ]
+},
+{
+  id:21,
+  date:"2025-12-08T11:40:00",
+  home:6, // Żuberki Bisia
+  away:13, // Lwy
+  homeGoals:0,
+  awayGoals:2,
+  events:[
+    {minute:4, playerId:1302},               // Mateusz Derendal – bez asysty
+    {minute:5, playerId:1302, assistId:1301} // Mateusz Derendal – asysta Paweł Jasak
+  ]
+},
+  {
+  id:22,
+  date:"2025-12-09T12:40:00",
+  home:2, // Dziki
+  away:12, // Fc Pantery
+  homeGoals:5,
+  awayGoals:0,
+  events:[
+    {minute:1, playerId:203, assistId:201}, // Bartek Dzikowski – asysta Adam Balcerzak
+    {minute:1, playerId:201},               // Adam Balcerzak – bez asysty
+    {minute:2, playerId:201, assistId:203}, // Adam Balcerzak – asysta Bartek Dzikowski
+    {minute:4, playerId:203, assistId:201}, // Bartek Dzikowski – asysta Adam Balcerzak
+    {minute:6, playerId:201, assistId:207}, // Adam Balcerzak – asysta Mateusz Orligóra
+    {minute:7, playerId:201},               // Adam Balcerzak – bez asysty
+    {minute:7, playerId:203, assistId:206}, // Bartek Dzikowski – asysta Mateusz Gawron
   ]
 }
 
@@ -797,6 +853,7 @@ renderNextMatches(); // pokaże od razu najbliższe mecze po załadowaniu strony
 </script>
 </body>
 </html>
+
 
 
 
