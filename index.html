@@ -95,9 +95,9 @@ tr.team-row:hover{background:linear-gradient(90deg, rgba(124,92,255,0.06), rgba(
 <script>
 // ===== Dane =====
 const teams=[
-  {id:1,name:"Antylopy",played:3,wins:2,draws:1,losses:0,goalsFor:5,goalsAgainst:1,points:7,players:[
-    {id:101,name:"Ksawery Szewczyk",goals:4,assists:0},{id:102,name:"Witold Wolski",goals:0,assists:0},
-    {id:103,name:"Ricardo Irzykowski",goals:1,assists:3},{id:104,name:"Kuba Bartosik",goals:0,assists:1},
+  {id:1,name:"Antylopy",played:4,wins:3,draws:1,losses:0,goalsFor:7,goalsAgainst:1,points:10,players:[
+    {id:101,name:"Ksawery Szewczyk",goals:5,assists:1},{id:102,name:"Witold Wolski",goals:0,assists:0},
+    {id:103,name:"Ricardo Irzykowski",goals:2,assists:4},{id:104,name:"Kuba Bartosik",goals:0,assists:1},
     {id:105,name:"Jan Bronikowski",goals:0,assists:0},{id:106,name:"Antoni Głowiński",goals:0,assists:0},
     ]},
   {id:2,name:"Dziki ",played:4,wins:3,draws:0,losses:1,goalsFor:16,goalsAgainst:6,points:9,players:[
@@ -116,24 +116,24 @@ const teams=[
     {id:403,name:"Błażej Nita",goals:1,assists:1},{id:404,name:"Filip Putiatycki",goals:2,assists:2},
     {id:405,name:"Adam Nowak",goals:0,assists:0},{id:406,name:"Remigiusz  Sobczak",goals:0,assists:0},
   ]},
-{id:5,name:"Camelo ",played:3,wins:2,draws:1,losses:0,goalsFor:12,goalsAgainst:4,points:7,players:[
+{id:5,name:"Camelo ",played:4,wins:3,draws:1,losses:0,goalsFor:15,goalsAgainst:4,points:10,players:[
     {id:501,name:"Adam Telega",goals:1,assists:5},{id:502,name:"Łukasz Sołdyński",goals:2,assists:1},
     {id:503,name:"Łukasz Jankowski",goals:8,assists:1},{id:504,name:"Jakub Dzikowski",goals:0,assists:1},
     {id:505,name:"Kamil Strzelczyk",goals:0,assists:0},
 {id:506,name:"Wiktor Górski",goals:1,assists:2},
   ]},
-{id:6,name:"Żuberki Bisia ",played:3,wins:1,draws:1,losses:1,goalsFor:7,goalsAgainst:8,points:4,players:[
-    {id:601,name:"Kacper Szczepaniak",goals:3,assists:2},{id:602,name:"Mateusz Wojtaszek",goals:2,assists:1},
+{id:6,name:"Żuberki Bisia ",played:4,wins:2,draws:1,losses:1,goalsFor:9,goalsAgainst:9,points:7,players:[
+    {id:601,name:"Kacper Szczepaniak",goals:4,assists:2},{id:602,name:"Mateusz Wojtaszek",goals:2,assists:1},
     {id:603,name:"Dominik Wieczorek",goals:0,assists:0},{id:604,name:"Eryk  Włodarczyk",goals:1,assists:1},
-    {id:605,name:"Kacper Socki",goals:1,assists:1},{id:606,name:"Michał  Kołaczkowski",goals:0,assists:0},
+    {id:605,name:"Kacper Socki",goals:2,assists:1},{id:606,name:"Michał  Kołaczkowski",goals:0,assists:0},
     {id:607,name:"Mikołaj Kołaczkowski",goals:0,assists:0},
   ]},
-{id:7,name:"Fc Żubry",played:3,wins:1,draws:1,losses:1,goalsFor:5,goalsAgainst:5,points:4,players:[
+{id:7,name:"Fc Żubry",played:4,wins:1,draws:1,losses:2,goalsFor:6,goalsAgainst:8,points:4,players:[
     {id:701,name:"Hubert Sieradzki",goals:0,assists:1},{id:702,name:"Kuba Dominiak",goals:2,assists:0},
-    {id:703,name:"Kuba Haładyn",goals:0,assists:0},{id:704,name:"Jan  Balcerzak",goals:3,assists:0},
+    {id:703,name:"Kuba Haładyn",goals:0,assists:0},{id:704,name:"Jan  Balcerzak",goals:4,assists:0},
     {id:705,name:"Leon Mielcarek",goals:0,assists:1},{id:706,name:"Mozharivskyi Illia",goals:0,assists:0},
 ]},
-{id:8,name:"Fc Knury",played:3,wins:2,draws:0,losses:1,goalsFor:7,goalsAgainst:5,points:6,players:[
+{id:8,name:"Fc Knury",played:4,wins:2,draws:0,losses:2,goalsFor:7,goalsAgainst:7,points:6,players:[
     {id:801,name:"Wojciech Heresztyn",goals:4,assists:2},{id:802,name:"Oliwier Drzewiecki",goals:2,assists:0},
     {id:803,name:"Jakub Pasik",goals:0,assists:0},{id:804,name:"Bartek Wichorski",goals:1,assists:0},
     {id:805,name:"Norbert Medycki",goals:0,assists:1},{id:806,name:"Rafał Wichorski",goals:0,assists:0},
@@ -155,7 +155,7 @@ const teams=[
     {id:1105,name:"Seweryn Trzmielewski",goals:0,assists:0},{id:1106,name:"Gracjan Antosik",goals:0,assists:0},
     {id:1107,name:"Brian Frątczak",goals:0,assists:0}
 ]},
-{id:12,name:"Fc Pantery",played:3,wins:0,draws:1,losses:2,goalsFor:4,goalsAgainst:12,points:1,players:[
+{id:12,name:"Fc Pantery",played:4,wins:0,draws:1,losses:3,goalsFor:4,goalsAgainst:15,points:1,players:[
     {id:1201,name:"Jakub Gidelski",goals:1,assists:1},{id:1202,name:"Lilianna Kaźmierczak",goals:0,assists:0},
     {id:1203,name:"Nehemiasz Kurzaj",goals:0,assists:0},{id:1204,name:"Bartosz Łukasik",goals:1,assists:0},
     {id:1205,name:"Krystian Dzieran",goals:2,assists:1},{id:1206,name:"Szymon Bocian",goals:0,assists:0},
@@ -165,7 +165,7 @@ const teams=[
     {id:1303,name:"Antoni Mielcarek",goals:0,assists:1},{id:1304,name:"Tymek Kałużny",goals:0,assists:0},
     {id:1305,name:"Wiktor Gawlak",goals:0,assists:0},{id:1306,name:"Łukasz Włodarczyk",goals:0,assists:0},
 ]},
-{id:14,name:"Szczupaki",played:3,wins:0,draws:1,losses:2,goalsFor:0,goalsAgainst:5,points:1,players:[
+{id:14,name:"Szczupaki",played:4,wins:0,draws:1,losses:3,goalsFor:1,goalsAgainst:7,points:1,players:[
     {id:1401,name:"Iwan Kaczmarzyński",goals:0,assists:0},{id:1402,name:"Wiktor Tarnowski",goals:0,assists:0},
     {id:1403,name:"Miłosz Bąkowski",goals:0,assists:0},{id:1404,name:"Hubert Walczak",goals:0,assists:0},
     {id:1405,name:"Marcel Perliński",goals:0,assists:0},{id:1406,name:"Mateusz Fret",goals:0,assists:0},
@@ -229,7 +229,7 @@ const matches = [
   {id:32, date:"2026-01-08T10:40:00", home:8, away:1, homeGoals:null, awayGoals:null},
 
   // 🟦 KOLEJKA 5
-  {id:33, date:"2026-01-09T10:40:00", home:3, away:7, homeGoals:null, awayGoals:null},
+  {id:33, date:"2026-01-13T13:20:00", home:3, away:7, homeGoals:null, awayGoals:null},
   {id:34, date:"2026-01-12T10:40:00", home:16, away:10, homeGoals:null, awayGoals:null},
   {id:35, date:"2026-01-13T10:40:00", home:9, away:12, homeGoals:null, awayGoals:null},
   {id:36, date:"2026-01-14T10:40:00", home:15, away:6, homeGoals:null, awayGoals:null},
@@ -573,8 +573,159 @@ const playedMatches=[
     {minute:7, playerId:201},               // Adam Balcerzak – bez asysty
     {minute:7, playerId:203, assistId:206}, // Bartek Dzikowski – asysta Mateusz Gawron
   ]
-}
+},
+  {
+  id:23,
+  date:"2025-12-10T10:40:00",
+  home:5, // Camelo
+  away:11, // Chesterfieldy
+  homeGoals:5,
+  awayGoals:0,
+  events:[
+    {minute:1, playerId:503, assistId:501}, // Łukasz Jankowski – asysta Adam Telega
+    {minute:5, playerId:506},               // Wiktor Górski – bez asysty
+    {minute:5, playerId:503, assistId:502}, // Łukasz Jankowski – asysta Łukasz Sołdyński
+    {minute:6, playerId:503, assistId:504}, // Łukasz Jankowski – asysta Jakub Dzikowski
+    {minute:8, playerId:502},               // Łukasz Sołdyński – bez asysty
+  ]
+},
+  {
+  id: 24,
+  date: "2026-01-10T00:00:00",
+  home: 8, // FC Knury
+  away: 7, // FC Żubry
+  homeGoals: 3,
+  awayGoals: 1,
+  events: [
+    { minute: 1, playerId: 802 }, 
+    // Oliwier Drzewiecki – FC Knury – bez asysty
 
+    { minute: 3, playerId: 702 }, 
+    // Kuba Dominiak – FC Żubry – bez asysty
+
+    { minute: 5, playerId: 802, assistId: 801 }, 
+    // Oliwier Drzewiecki – asysta Wojciech Heresztyn
+
+    { minute: 8, playerId: 806, assistId: 801 }, 
+    // Rafał Wichorski – asysta Wojciech Heresztyn
+  ]
+},
+  {
+  id: 25,
+  date: "2025-11-29T00:00:00",
+  home: 3, // Tępe Lisy
+  away: 4, // Kokoszki
+  homeGoals: 8,
+  awayGoals: 2,
+  events: [
+    { minute: 1, playerId: 401, assistId: 404 }, // Rafał Kobielak – Kokoszki
+    { minute: 1, playerId: 401, ownGoal: true }, // Rafał Kobielak – SAMOBÓJ (gol dla Tępich Lisów)
+
+    { minute: 3, playerId: 303, assistId: 302 }, // Mateusz Telega – asysta Wojciech Małecki
+    { minute: 3, playerId: 401 }, // Rafał Kobielak – bez asysty
+
+    { minute: 4, playerId: 302, assistId: 304 }, // Wojciech Małecki – asysta Igor Nowakowski
+    { minute: 5, playerId: 301, assistId: 302 }, // Kamil Grajczyk – asysta Wojciech Małecki
+    { minute: 6, playerId: 302, assistId: 303 }, // Wojciech Małecki – asysta Mateusz Telega
+    { minute: 7, playerId: 301, assistId: 302 }, // Kamil Grajczyk – asysta Wojciech Małecki
+    { minute: 8, playerId: 303, assistId: 302 }, // Mateusz Telega – asysta Wojciech Małecki
+    { minute: 8, playerId: 303 }, // Mateusz Telega – bez asysty
+  ]
+},
+  {
+  id: 26,
+  date: "2025-11-30T10:40:00",
+  home: 16, // Orły
+  away: 15, // Koty
+  homeGoals: 5,
+  awayGoals: 1,
+  events: [
+    { minute: 3, playerId: 1601 },                // Tobiasz Dymkowski – Orły – bez asysty
+    { minute: 4, playerId: 1506 },                // Alan Pakuła – Koty – bez asysty
+    { minute: 5, playerId: 1602 },                // Kuba Wardziak – Orły – bez asysty
+    { minute: 6, playerId: 1603, assistId: 1605 },// Konrad Jacuszczak – asysta Krystian Wolski
+    { minute: 7, playerId: 1504 },                // Alan Pakuła – Koty – bez asysty
+    { minute: 8, playerId: 1506, assistId: 1503 },// Rafał Szczepaniak – asysta Łukasz Burdelak
+  ]
+},
+  {
+  id: 27,
+  date: "2025-11-30T11:30:00",
+  home: 2, // Dziki
+  away: 9, // Tygrysy
+  homeGoals: 4,
+  awayGoals: 1,
+  events: [
+    { minute: 3, playerId: 201 },                 // Adam Balcerzak – bez asysty
+    { minute: 3, playerId: 201, assistId: 203 }, // Adam Balcerzak – asysta Bartek Dzikowski
+    { minute: 4, playerId: 203 },                 // Bartek Dzikowski – bez asysty
+    { minute: 5, playerId: 201, assistId: 206 }, // Adam Balcerzak – asysta Mateusz Gawron
+    { minute: 6, playerId: 904, assistId: 903 }, // Daniel Strzelczyk – asysta Dawid Wichorski
+  ]
+},
+  {
+  id: 28,
+  date: "2025-11-30T12:10:00",
+  home: 13, // Lwy
+  away: 10, // Dzikie Kaczki
+  homeGoals: 4,
+  awayGoals: 1,
+  events: [
+    { minute: 4, playerId: 1302, assistId: 1303 }, // Mateusz Derendal – asysta Antoni Mielcarek
+    { minute: 4, playerId: 1001 },                  // Maciek Skrzypiński – bez asysty
+    { minute: 6, playerId: 1302, assistId: 1303 }, // Mateusz Derendal – asysta Antoni Mielcarek
+    { minute: 7, playerId: 1302 },                  // Mateusz Derendal – bez asysty
+    { minute: 8, playerId: 1302, assistId: 1301 }, // Mateusz Derendal – asysta Paweł Jasak
+  ]
+},
+  {
+  id: 29,
+  date: "2025-11-30T12:50:00",
+  home: 7, // Fc Żubry
+  away: 11, // Chesterfieldy
+  homeGoals: 3,
+  awayGoals: 1,
+  events: [
+    { minute: 2, playerId: 1102, assistId: 1107 }, // Artur Wypiór – asysta Brajan Frątczak
+    { minute: 6, playerId: 1103, assistId: 1102 }, // Mozharivskyi Yehenii – asysta Artur Wypiór
+    { minute: 6, playerId: 704 },                  // Jan Balcerzak – bez asysty
+    { minute: 7, playerId: 1101 },                 // Patryk Szablewski – bez asysty
+  ]
+},
+  {
+  id: 30,
+  date: "2025-11-30T13:30:00",
+  home: 5, // Camelo
+  away: 12, // Fc Pantery
+  homeGoals: 3,
+  awayGoals: 0,
+  events: [] // walkower, brak zdarzeń bramkowych
+},
+  {
+  id: 31,
+  date: "2025-11-30T14:10:00",
+  home: 14, // Fc Szczupaki
+  away: 6,  // Żuberki Bisia
+  homeGoals: 2,
+  awayGoals: 1,
+  events: [
+    { minute: 1, playerId: 601 }, // Kacper Szczepaniak – bez asysty
+    { minute: 5, playerId: 1402 }, // Wiktor Tarnowski – bez asysty
+    { minute: 6, playerId: 605 }, // Kacper Socki – bez asysty
+  ]
+},
+  {
+  id: 26,
+  date: "2025-11-30T14:50:00",
+  home: 1, // Antylopy
+  away: 8, // Fc Knury
+  homeGoals: 2,
+  awayGoals: 0,
+  events: [
+    { minute: 5, playerId: 101, assistId: 103 }, // Ksawery Szewczyk – asysta Ricardo Irzykowski
+    { minute: 8, playerId: 103, assistId: 101 }, // Ricardo Irzykowski – asysta Ksawery Szewczyk
+  ]
+}
 ];
 
 // ===== Funkcje =====
@@ -854,6 +1005,7 @@ renderNextMatches(); // pokaże od razu najbliższe mecze po załadowaniu strony
 </script>
 </body>
 </html>
+
 
 
 
