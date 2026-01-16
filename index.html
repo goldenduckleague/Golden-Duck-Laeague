@@ -95,9 +95,9 @@ tr.team-row:hover{background:linear-gradient(90deg, rgba(124,92,255,0.06), rgba(
 <script>
 // ===== Dane =====
 const teams=[
-  {id:1,name:"Antylopy",played:4,wins:3,draws:1,losses:0,goalsFor:7,goalsAgainst:1,points:10,players:[
-    {id:101,name:"Ksawery Szewczyk",goals:5,assists:1},{id:102,name:"Witold Wolski",goals:0,assists:0},
-    {id:103,name:"Ricardo Irzykowski",goals:2,assists:4},{id:104,name:"Kuba Bartosik",goals:0,assists:1},
+  {id:1,name:"Antylopy",played:4,wins:3,draws:1,losses:0,goalsFor:9,goalsAgainst:1,points:10,players:[
+    {id:101,name:"Ksawery Szewczyk",goals:6,assists:2},{id:102,name:"Witold Wolski",goals:0,assists:0},
+    {id:103,name:"Ricardo Irzykowski",goals:3,assists:5},{id:104,name:"Kuba Bartosik",goals:0,assists:1},
     {id:105,name:"Jan Bronikowski",goals:0,assists:0},{id:106,name:"Antoni Głowiński",goals:0,assists:0},
     ]},
   {id:2,name:"Dziki ",played:4,wins:3,draws:0,losses:1,goalsFor:16,goalsAgainst:6,points:9,players:[
@@ -106,9 +106,9 @@ const teams=[
     {id:205,name:"Jakub Urbańczyk",goals:0,assists:0},{id:206,name:"Mateusz Gawron",goals:1,assists:2},
     {id:207,name:"Mateusz Orligóra",goals:0,assists:1},
   ]},
-{id:3,name:"Tępe Lisy ",played:4,wins:3,draws:0,losses:1,goalsFor:20,goalsAgainst:5,points:9,players:[
-    {id:301,name:"Kamil Grajczyk",goals:10,assists:1},{id:302,name:"Wojciech Małecki",goals:2,assists:8},
-    {id:303,name:"Mateusz Telega",goals:4,assists:6},{id:304,name:"Igor Nowakowski",goals:0,assists:2},
+{id:3,name:"Tępe Lisy ",played:5,wins:4,draws:0,losses:1,goalsFor:25,goalsAgainst:5,points:12,players:[
+    {id:301,name:"Kamil Grajczyk",goals:13,assists:3},{id:302,name:"Wojciech Małecki",goals:3,assists:11},
+    {id:303,name:"Mateusz Telega",goals:5,assists:6},{id:304,name:"Igor Nowakowski",goals:0,assists:2},
     {id:305,name:"Piotr Kukieliński",goals:0,assists:0},{id:306,name:"Andrii  Lafeta",goals:1,assists:0},
   ]},
 {id:4,name:"Kokoszki ",played:4,wins:2,draws:0,losses:2,goalsFor:10,goalsAgainst:12,points:6,players:[
@@ -128,12 +128,12 @@ const teams=[
     {id:605,name:"Kacper Socki",goals:2,assists:1},{id:606,name:"Michał  Kołaczkowski",goals:0,assists:0},
     {id:607,name:"Mikołaj Kołaczkowski",goals:0,assists:0},
   ]},
-{id:7,name:"Fc Żubry",played:4,wins:1,draws:1,losses:2,goalsFor:6,goalsAgainst:8,points:4,players:[
+{id:7,name:"Fc Żubry",played:5,wins:1,draws:1,losses:3,goalsFor:6,goalsAgainst:13,points:4,players:[
     {id:701,name:"Hubert Sieradzki",goals:0,assists:1},{id:702,name:"Kuba Dominiak",goals:2,assists:0},
     {id:703,name:"Kuba Haładyn",goals:0,assists:0},{id:704,name:"Jan  Balcerzak",goals:4,assists:0},
     {id:705,name:"Leon Mielcarek",goals:0,assists:1},{id:706,name:"Mozharivskyi Illia",goals:0,assists:0},
 ]},
-{id:8,name:"Fc Knury",played:4,wins:2,draws:0,losses:2,goalsFor:7,goalsAgainst:7,points:6,players:[
+{id:8,name:"Fc Knury",played:4,wins:2,draws:0,losses:2,goalsFor:7,goalsAgainst:9,points:6,players:[
     {id:801,name:"Wojciech Heresztyn",goals:4,assists:2},{id:802,name:"Oliwier Drzewiecki",goals:2,assists:0},
     {id:803,name:"Jakub Pasik",goals:0,assists:0},{id:804,name:"Bartek Wichorski",goals:1,assists:0},
     {id:805,name:"Norbert Medycki",goals:0,assists:1},{id:806,name:"Rafał Wichorski",goals:0,assists:0},
@@ -144,10 +144,10 @@ const teams=[
     {id:903,name:"Dawid Wichorski",goals:1,assists:1},{id:904,name:"Daniel Strzelczyk",goals:1,assists:1},
     {id:905,name:"Jakub Piłka",goals:0,assists:0},{id:906,name:"Bartosz Karbowy",goals:0,assists:0},
 ]},
-{id:10,name:"Dzikie Kaczki",played:4,wins:1,draws:0,losses:3,goalsFor:6,goalsAgainst:11,points:3,players:[
-    {id:1001,name:"Maciek Skrzypiński",goals:1,assists:4},{id:1002,name:"Jonasz Przybylak",goals:3,assists:0},
-    {id:1003,name:"Wiktor Gruca",goals:1,assists:0},{id:1004,name:"Marcel Łukasik",goals:0,assists:0},
-    {id:1005,name:"Jan Szymański",goals:0,assists:0},{id:1006,name:"Franek Pakuła",goals:0,assists:0},
+{id:10,name:"Dzikie Kaczki",played:5,wins:2,draws:0,losses:3,goalsFor:8,goalsAgainst:11,points:6,players:[
+    {id:1001,name:"Maciek Skrzypiński",goals:2,assists:4},{id:1002,name:"Jonasz Przybylak",goals:3,assists:0},
+    {id:1003,name:"Wiktor Gruca",goals:1,assists:0},{id:1004,name:"Marcel Łukasik",goals:0,assists:1},
+    {id:1005,name:"Jan Szymański",goals:0,assists:0},{id:1006,name:"Franek Pakuła",goals:1,assists:0},
 ]},
 {id:11,name:"Chesterfieldy",played:4,wins:2,draws:1,losses:1,goalsFor:5,goalsAgainst:7,points:7,players:[
     {id:1101,name:"Patryk Szablewski",goals:1,assists:1},{id:1102,name:"Artur Wypiór",goals:2,assists:2},
@@ -176,7 +176,7 @@ const teams=[
     {id:1505,name:"Franek Ćwikliński",goals:0,assists:0},{id:1506,name:"Rafał Szczepaniak",goals:1,assists:0},
     {id:1507,name:"Szymon Rybarski",goals:0,assists:0},
 ]},
-{id:16,name:"Orły",played:4,wins:1,draws:1,losses:2,goalsFor:6,goalsAgainst:12,points:4,players:[
+{id:16,name:"Orły",played:5,wins:1,draws:1,losses:3,goalsFor:6,goalsAgainst:14,points:4,players:[
     {id:1601,name:"Tobiasz Dymkowski",goals:1,assists:0},{id:1602,name:"Kuba Wardziak",goals:0,assists:0},
     {id:1603,name:"Konrad Jacuszczak",goals:2,assists:0},{id:1604,name:"Krystian Siwek",goals:0,assists:0},
     {id:1605,name:"Jakub Pasik",goals:0,assists:0},{id:1606,name:"Ksawery Grzesiak",goals:0,assists:1},
