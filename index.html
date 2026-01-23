@@ -49,64 +49,22 @@ tr.team-row:hover{background:linear-gradient(90deg, rgba(124,92,255,0.06), rgba(
 /* --- Responsywność --- */
 @media (max-width: 768px) {
   .app { flex-direction: column; }
-  .sidebar {
-    width: 100%;
-    height: auto;
-    border-right: none;
-    display: flex;
-    overflow-x: auto;
-  }
+  .sidebar { width: 100%; height: auto; border-right: none; display: flex; overflow-x: auto; }
   .nav { flex-direction: row; gap:4px; }
   .main { padding:10px; }
   table { min-width:600px; }
 }
-  .bracket {
-  display: flex;
-  gap: 80px; /* odstęp między rundami */
-  align-items: flex-start;
-}
 
-/* Każda runda w kolumnie */
-.round {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* Pojedynczy mecz */
-.match {
-  background: #f0f0f0;
-  border: 1px solid #999;
-  border-radius: 5px;
-  padding: 10px;
-  text-align: center;
-  min-width: 120px;
-  position: relative;
-  margin: 20px 0;
-}
-
-/* Pozioma linia łącząca mecze do następnej rundy */
-.round-4 .match::after,
-.round-2 .match::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: -40px; /* długość linii do następnej rundy */
-  width: 40px;
-  height: 2px;
-  background: #000;
-}
-
-/* Usunięcie linii z ostatnich elementów w rundzie */
-.round-4 .match:nth-child(2n)::after,
-.round-2 .match:nth-child(2n)::after {
-  display: none;
-}
+/* Faza pucharowa */
+.bracket { display:flex; gap:80px; align-items:flex-start;}
+.round { display:flex; flex-direction:column; justify-content:space-between;}
+.match { background:#f0f0f0; border:1px solid #999; border-radius:5px; padding:10px; text-align:center; min-width:120px; position:relative; margin:20px 0;}
+.round-4 .match::after, .round-2 .match::after { content:""; position:absolute; top:50%; right:-40px; width:40px; height:2px; background:#000;}
+.round-4 .match:nth-child(2n)::after, .round-2 .match:nth-child(2n)::after { display:none;}
 </style>
 </head>
 <body>
 <div class="app">
-<div id="matchesContainer"></div>
 <aside class="sidebar">
 <div class="logo">⚽ Golden Duck League</div>
 <nav class="nav" id="nav">
@@ -119,8 +77,7 @@ tr.team-row:hover{background:linear-gradient(90deg, rgba(124,92,255,0.06), rgba(
 <button data-view="knockout">Faza pucharowa</button>
 <button data-view="results">Mecze rozegrane</button>
 </nav>
-<div style="margin-top:14px;font-size:13px;color:var(--muted)">
-</div>
+<div style="margin-top:14px;font-size:13px;color:var(--muted)"></div>
 </aside>
 <main class="main">
 <div class="header">
@@ -128,8 +85,7 @@ tr.team-row:hover{background:linear-gradient(90deg, rgba(124,92,255,0.06), rgba(
 <span class="header-label h-l-1">101 zawodników</span>
 <span class="header-label h-l-2" style="margin-left:8px">16 drużyn</span>
 </div>
-<div class="controls">
-</div>
+<div class="controls"></div>
 </div>
 <section id="view-area"></section>
 </main>
@@ -1017,6 +973,7 @@ renderNextMatches(); // pokaże od razu najbliższe mecze po załadowaniu strony
 </script>
 </body>
 </html>
+
 
 
 
