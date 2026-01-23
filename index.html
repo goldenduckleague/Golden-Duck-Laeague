@@ -60,6 +60,48 @@ tr.team-row:hover{background:linear-gradient(90deg, rgba(124,92,255,0.06), rgba(
   .main { padding:10px; }
   table { min-width:600px; }
 }
+  .bracket {
+  display: flex;
+  gap: 80px; /* odstęp między rundami */
+  align-items: flex-start;
+}
+
+/* Każda runda w kolumnie */
+.round {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Pojedynczy mecz */
+.match {
+  background: #f0f0f0;
+  border: 1px solid #999;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  min-width: 120px;
+  position: relative;
+  margin: 20px 0;
+}
+
+/* Pozioma linia łącząca mecze do następnej rundy */
+.round-4 .match::after,
+.round-2 .match::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -40px; /* długość linii do następnej rundy */
+  width: 40px;
+  height: 2px;
+  background: #000;
+}
+
+/* Usunięcie linii z ostatnich elementów w rundzie */
+.round-4 .match:nth-child(2n)::after,
+.round-2 .match:nth-child(2n)::after {
+  display: none;
+}
 </style>
 </head>
 <body>
@@ -942,31 +984,28 @@ function renderKnockout() {
   const view = document.getElementById("view-area");
   view.innerHTML = `
     <div class="card">
-      <h2>Faza pucharowa</h2>
+      <h2>Faza pucharowa - 1/4 finału</h2>
       <div class="bracket">
-        <div class="round round-16">
-          <div class="match">Team 1<br>vs<br>Team 16</div>
-          <div class="match">Team 8<br>vs<br>Team 9</div>
-          <div class="match">Team 4<br>vs<br>Team 13</div>
-          <div class="match">Team 5<br>vs<br>Team 12</div>
-          <div class="match">Team 2<br>vs<br>Team 15</div>
-          <div class="match">Team 7<br>vs<br>Team 10</div>
-          <div class="match">Team 3<br>vs<br>Team 14</div>
-          <div class="match">Team 6<br>vs<br>Team 11</div>
-        </div>
-        <div class="round round-8">
-          <div class="match">Winner 1 vs Winner 2</div>
-          <div class="match">Winner 3 vs Winner 4</div>
-          <div class="match">Winner 5 vs Winner 6</div>
-          <div class="match">Winner 7 vs Winner 8</div>
-        </div>
+
+        <!-- 1/4 finału -->
         <div class="round round-4">
-          <div class="match">Winner 1 vs Winner 2</div>
-          <div class="match">Winner 3 vs Winner 4</div>
+          <div class="match">Team 1<br>vs<br>Team 8</div>
+          <div class="match">Team 4<br>vs<br>Team 5</div>
+          <div class="match">Team 2<br>vs<br>Team 7</div>
+          <div class="match">Team 3<br>vs<br>Team 6</div>
         </div>
+
+        <!-- Półfinały -->
         <div class="round round-2">
           <div class="match">Winner 1 vs Winner 2</div>
+          <div class="match">Winner 3 vs Winner 4</div>
         </div>
+
+        <!-- Finał -->
+        <div class="round round-1">
+          <div class="match">Winner SF1 vs Winner SF2</div>
+        </div>
+
       </div>
     </div>
   `;
@@ -978,6 +1017,7 @@ renderNextMatches(); // pokaże od razu najbliższe mecze po załadowaniu strony
 </script>
 </body>
 </html>
+
 
 
 
