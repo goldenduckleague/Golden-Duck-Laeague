@@ -968,75 +968,10 @@ function renderKnockout() {
 }
 // podpinamy przycisk
 document.querySelector('[data-view="knockout"]').addEventListener("click", renderKnockout);
-
-renderNextMatches(); // pokaże od razu najbliższe mecze po załadowaniu strony\
-  // ===== Ustawienia kolorów (łatwe do zmiany) =====
-const colors = {
-  bg: "#0b1020",
-  panel: "#0f1724",
-  muted: "#9aa4ad",
-  accent1: "#ff5c8a",
-  accent2: "#7c5cff",
-  accent3: "#00d4ff",
-  accent4: "#7cff6b"
-};
-
-// Podstawienie kolorów do CSS dynamicznie
-const root = document.documentElement;
-Object.entries(colors).forEach(([key, value]) => {
-  root.style.setProperty(`--${key}`, value);
-});
-
-// ===== Drużyny i zawodnicy =====
-const teams = [
-  // Tutaj wklejasz wszystkie swoje drużyny z zawodnikami
-];
-
-// ===== Mecze, terminarz, tabela =====
-const matches = [
-  // Twoje dane o meczach
-];
-
-// ===== Faza pucharowa =====
-const knockout = {
-  quarterFinals: [
-    {home:1,away:2,scoreHome:null,scoreAway:null},
-    {home:3,away:4,scoreHome:null,scoreAway:null},
-    {home:5,away:6,scoreHome:null,scoreAway:null},
-    {home:7,away:8,scoreHome:null,scoreAway:null}
-  ],
-  semiFinals: [
-    {home:null,away:null,scoreHome:null,scoreAway:null},
-    {home:null,away:null,scoreHome:null,scoreAway:null}
-  ],
-  final: {home:null,away:null,scoreHome:null,scoreAway:null},
-  thirdPlace: {home:null,away:null,scoreHome:null,scoreAway:null}
-};
-
-// ===== Funkcje pomocnicze do renderowania =====
-function renderTeams(){ /* ... */ }
-function renderTable(){ /* ... */ }
-function renderMatches(){ /* ... */ }
-function renderKnockout(){ /* ... */ }
-
-// ===== Nawigacja =====
-const navButtons = document.querySelectorAll("#nav button");
-const viewArea = document.getElementById("view-area");
-navButtons.forEach(btn => btn.addEventListener("click", ()=>{
-  navButtons.forEach(b=>b.classList.remove("active"));
-  btn.classList.add("active");
-  const view = btn.dataset.view;
-  if(view==="table") renderTable();
-  else if(view==="teams") renderTeams();
-  else if(view==="schedule") renderMatches();
-  else if(view==="knockout") renderKnockout();
-}));
-
-// ===== Startowa strona =====
-renderTable();
 </script>
 </body>
 </html>
+
 
 
 
