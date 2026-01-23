@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Super Liga – Panel</title>
+<title>Super Liga</title>
 <style>
 :root{
   --bg:#0b1020; --panel:#0f1724; --muted:#9aa4ad;
@@ -938,10 +938,32 @@ function renderResults() {
     </div>
   `;
 }
+  function renderKnockout() {
+  const view = document.getElementById("view-area");
+  view.innerHTML = `
+    <div class="card">
+      <h2>Faza pucharowa</h2>
+      <div class="knockout-bracket">
+        <div>1/8 finału: Team 1 vs Team 16</div>
+        <div>1/8 finału: Team 8 vs Team 9</div>
+        <div>1/8 finału: Team 4 vs Team 13</div>
+        <div>1/8 finału: Team 5 vs Team 12</div>
+        <div>1/8 finału: Team 2 vs Team 15</div>
+        <div>1/8 finału: Team 7 vs Team 10</div>
+        <div>1/8 finału: Team 3 vs Team 14</div>
+        <div>1/8 finału: Team 6 vs Team 11</div>
+      </div>
+    </div>
+  `;
+}
+// podpinamy przycisk
+document.querySelector('[data-view="knockout"]').addEventListener("click", renderKnockout);
+
 renderNextMatches(); // pokaże od razu najbliższe mecze po załadowaniu strony
 </script>
 </body>
 </html>
+
 
 
 
