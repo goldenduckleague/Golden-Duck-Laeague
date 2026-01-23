@@ -938,20 +938,35 @@ function renderResults() {
     </div>
   `;
 }
-  function renderKnockout() {
+function renderKnockout() {
   const view = document.getElementById("view-area");
   view.innerHTML = `
     <div class="card">
       <h2>Faza pucharowa</h2>
-      <div class="knockout-bracket">
-        <div>1/8 finału: Team 1 vs Team 16</div>
-        <div>1/8 finału: Team 8 vs Team 9</div>
-        <div>1/8 finału: Team 4 vs Team 13</div>
-        <div>1/8 finału: Team 5 vs Team 12</div>
-        <div>1/8 finału: Team 2 vs Team 15</div>
-        <div>1/8 finału: Team 7 vs Team 10</div>
-        <div>1/8 finału: Team 3 vs Team 14</div>
-        <div>1/8 finału: Team Tępe Lisy vs Team 11</div>
+      <div class="bracket">
+        <div class="round round-16">
+          <div class="match">Team 1<br>vs<br>Team 16</div>
+          <div class="match">Team 8<br>vs<br>Team 9</div>
+          <div class="match">Team 4<br>vs<br>Team 13</div>
+          <div class="match">Team 5<br>vs<br>Team 12</div>
+          <div class="match">Team 2<br>vs<br>Team 15</div>
+          <div class="match">Team 7<br>vs<br>Team 10</div>
+          <div class="match">Team 3<br>vs<br>Team 14</div>
+          <div class="match">Team 6<br>vs<br>Team 11</div>
+        </div>
+        <div class="round round-8">
+          <div class="match">Winner 1 vs Winner 2</div>
+          <div class="match">Winner 3 vs Winner 4</div>
+          <div class="match">Winner 5 vs Winner 6</div>
+          <div class="match">Winner 7 vs Winner 8</div>
+        </div>
+        <div class="round round-4">
+          <div class="match">Winner 1 vs Winner 2</div>
+          <div class="match">Winner 3 vs Winner 4</div>
+        </div>
+        <div class="round round-2">
+          <div class="match">Winner 1 vs Winner 2</div>
+        </div>
       </div>
     </div>
   `;
@@ -963,6 +978,7 @@ renderNextMatches(); // pokaże od razu najbliższe mecze po załadowaniu strony
 </script>
 </body>
 </html>
+
 
 
 
