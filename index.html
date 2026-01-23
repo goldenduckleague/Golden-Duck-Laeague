@@ -729,15 +729,81 @@ const playedMatches=[
 {
   id:33,
   date:"2026-01-13T17:00:00",
-  home:"Dzikie Kaczki",
-  away:"Orły",
+  home:9, // Dzikie Kaczki
+  away:16, // Orły
   homeGoals:2,
   awayGoals:0,
-  goals:[
-    {minute:2,player:"Franek Pakuła",team:"Dzikie Kaczki"},
-    {minute:7,player:"Maciek Skrzypiński",assist:"Marcel Łukasik",team:"Dzikie Kaczki"}
+  events:[
+    {minute:2,playerId:901,assistId:null}, // Franek Pakuła
+    {minute:7,playerId:902,assistId:903}, // Maciek Skrzypiński – asysta Marcel Łukasik
   ],
-  mvp:"Marcel Łukasik"
+  mvp:903 // Marcel Łukasik
+},
+{
+  id:34,
+  date:"2026-01-13T17:30:00",
+  home:3, // Tępe Lisy
+  away:11, // FC Żubry
+  homeGoals:5,
+  awayGoals:0,
+  events:[
+    {minute:1,playerId:301,assistId:302}, // Kamil Grajczyk – asysta Wojciech Małecki
+    {minute:2,playerId:301,assistId:302}, // Kamil Grajczyk – asysta Wojciech Małecki
+    {minute:3,playerId:303,assistId:301}, // Mateusz Telega – asysta Kamil Grajczyk
+    {minute:8,playerId:302,assistId:301}, // Wojciech Małecki – asysta Kamil Grajczyk
+    {minute:8,playerId:301,assistId:302}, // Kamil Grajczyk – asysta Wojciech Małecki
+  ],
+  mvp:301 // Kamil Grajczyk
+},
+{
+  id:35,
+  date:"2026-01-13T18:10:00",
+  home:5, // Tygrysy
+  away:12, // FC Pantery
+  homeGoals:3,
+  awayGoals:0,
+  walkover:true,
+  events:[],
+  mvp:null
+},
+{
+  id:36,
+  date:"2026-01-13T18:40:00",
+  home:11, // Żuberki Bisia
+  away:15, // Kłoty
+  homeGoals:7,
+  awayGoals:0,
+  events:[
+    {minute:2,playerId:1101,assistId:1102}, // Kacper Szczepaniak – asysta Kacper Socki
+    {minute:3,playerId:1102,assistId:1103}, // Kacper Socki – asysta Mateusz Wojtaszek
+    {minute:5,playerId:1102,assistId:null}, // Kacper Socki
+    {minute:5,playerId:1103,assistId:null}, // Mateusz Wojtaszek
+    {minute:6,playerId:1102,assistId:1101}, // Kacper Socki – asysta Kacper Szczepaniak
+    {minute:7,playerId:1103,assistId:1104}, // Mateusz Wojtaszek – asysta Eryk Włodarczyk
+    {minute:7,playerId:1103,assistId:null}, // Mateusz Wojtaszek
+  ],
+  mvp:1102 // Kacper Socki
+},
+{
+  id:37,
+  date:"2026-01-13T19:00:00",
+  home:9, // Camelo
+  away:8, // Kokoszki
+  homeGoals:9,
+  awayGoals:1,
+  events:[
+    {minute:3,playerId:901,assistId:902}, // Adam Telega – asysta Wiktor Górski
+    {minute:3,playerId:901,assistId:902}, // Adam Telega – asysta Wiktor Górski
+    {minute:4,playerId:902,assistId:null}, // Wiktor Górski
+    {minute:5,playerId:903,assistId:null}, // Błażej Nita
+    {minute:6,playerId:901,assistId:902}, // Adam Telega – asysta Wiktor Górski
+    {minute:6,playerId:904,assistId:null}, // Łukasz Jankowski
+    {minute:7,playerId:902,assistId:905}, // Wiktor Górski – asysta Jakub Dzikowski
+    {minute:8,playerId:901,assistId:null}, // Adam Telega
+    {minute:8,playerId:902,assistId:901}, // Wiktor Górski – asysta Adam Telega
+    {minute:8,playerId:902,assistId:901}, // Wiktor Górski – asysta Adam Telega
+  ],
+  mvp:902 // Wiktor Górski
 }
 ];
 
