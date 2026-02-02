@@ -93,12 +93,12 @@ tr.team-row:hover{background:linear-gradient(90deg, rgba(124,92,255,0.06), rgba(
 <script>
 // ===== Dane =====
 const teams=[
-  {id:1,name:"Antylopy",played:6,wins:4,draws:1,losses:1,goalsFor:9,goalsAgainst:2,points:13,players:[
+  {id:1,name:"Antylopy",played:7,wins:5,draws:1,losses:1,goalsFor:9,goalsAgainst:2,points:16,players:[
     {id:101,name:"Ksawery Szewczyk",goals:6,assists:2},{id:102,name:"Witold Wolski",goals:0,assists:0},
     {id:103,name:"Ricardo Irzykowski",goals:3,assists:5},{id:104,name:"Kuba Bartosik",goals:0,assists:1},
     {id:105,name:"Jan Bronikowski",goals:0,assists:0},{id:106,name:"Antoni Głowiński",goals:0,assists:0},
     ]},
-  {id:2,name:"Dziki ",played:6,wins:5,draws:0,losses:1,goalsFor:22,goalsAgainst:8,points:15,players:[
+  {id:2,name:"Dziki ",played:7,wins:6,draws:0,losses:1,goalsFor:22,goalsAgainst:8,points:18,players:[
     {id:201,name:"Adam Balcerzak",goals:10,assists:3},{id:202,name:"Szymon Jeżyński",goals:0,assists:0},
     {id:203,name:"Bartek Dzikowski",goals:9,assists:3},{id:204,name:"Kuba Zawiśniewski",goals:0,assists:2},
     {id:205,name:"Jakub Urbańczyk",goals:0,assists:0},{id:206,name:"Mateusz Gawron",goals:1,assists:2},
@@ -131,29 +131,29 @@ const teams=[
     {id:703,name:"Kuba Haładyn",goals:0,assists:0},{id:704,name:"Jan  Balcerzak",goals:5,assists:0},
     {id:705,name:"Leon Mielcarek",goals:0,assists:1},{id:706,name:"Mozharivskyi Illia",goals:0,assists:0},
 ]},
-{id:8,name:"Fc Knury",played:5,wins:2,draws:0,losses:3,goalsFor:7,goalsAgainst:11,points:6,players:[
-    {id:801,name:"Wojciech Heresztyn",goals:4,assists:2},{id:802,name:"Oliwier Drzewiecki",goals:2,assists:0},
-    {id:803,name:"nn",goals:0,assists:0},{id:804,name:"Bartek Wichorski",goals:1,assists:0},
+{id:8,name:"Fc Knury",played:6,wins:3,draws:0,losses:3,goalsFor:10,goalsAgainst:13,points:9,players:[
+    {id:801,name:"Wojciech Heresztyn",goals:7,assists:2},{id:802,name:"Oliwier Drzewiecki",goals:2,assists:0},
+    {id:803,name:"",goals:0,assists:0},{id:804,name:"Bartek Wichorski",goals:1,assists:0},
     {id:805,name:"Norbert Medycki",goals:0,assists:1},{id:806,name:"Rafał Wichorski",goals:0,assists:0},
     {id:807,name:"Adrian Bukowiecki",goals:0,assists:0},
 ]},
-{id:9,name:"Tygrysy",played:6,wins:3,draws:0,losses:3,goalsFor:13,goalsAgainst:12,points:9,players:[
-    {id:901,name:"Dima Moroz",goals:5,assists:1},{id:902,name:"Taras Liskoveckyy",goals:2,assists:2},
+{id:9,name:"Tygrysy",played:7,wins:4,draws:0,losses:3,goalsFor:14,goalsAgainst:12,points:12,players:[
+    {id:901,name:"Dima Moroz",goals:6,assists:1},{id:902,name:"Taras Liskoveckyy",goals:2,assists:2},
     {id:903,name:"Dawid Wichorski",goals:1,assists:1},{id:904,name:"Daniel Strzelczyk",goals:1,assists:1},
     {id:905,name:"Jakub Piłka",goals:0,assists:0},{id:906,name:"Bartosz Karbowy",goals:0,assists:0},
 ]},
-{id:10,name:"Dzikie Kaczki",played:5,wins:2,draws:0,losses:3,goalsFor:8,goalsAgainst:11,points:6,players:[
-    {id:1001,name:"Maciek Skrzypiński",goals:2,assists:4},{id:1002,name:"Jonasz Przybylak",goals:3,assists:0},
+{id:10,name:"Dzikie Kaczki",played:6,wins:2,draws:0,losses:4,goalsFor:10,goalsAgainst:13,points:6,players:[
+    {id:1001,name:"Maciek Skrzypiński",goals:4,assists:4},{id:1002,name:"Jonasz Przybylak",goals:3,assists:0},
     {id:1003,name:"Wiktor Gruca",goals:1,assists:0},{id:1004,name:"Marcel Łukasik",goals:0,assists:1},
-    {id:1005,name:"Jan Szymański",goals:0,assists:0},{id:1006,name:"Franek Pakuła",goals:1,assists:0},
+    {id:1005,name:"Jan Szymański",goals:0,assists:1},{id:1006,name:"Franek Pakuła",goals:1,assists:0},
 ]},
-{id:11,name:"Chesterfieldy",played:6,wins:3,draws:1,losses:2,goalsFor:5,goalsAgainst:10,points:10,players:[
+{id:11,name:"Chesterfieldy",played:7,wins:3,draws:1,losses:3,goalsFor:10,goalsAgainst:11,points:10,players:[
     {id:1101,name:"Patryk Szablewski",goals:2,assists:1},{id:1102,name:"Artur Wypiór",goals:3,assists:2},
     {id:1103,name:"Mozarivskyi Yehenii",goals:2,assists:0},{id:1104,name:"Kacper Olech",goals:0,assists:0},
     {id:1105,name:"Seweryn Trzmielewski",goals:0,assists:0},{id:1106,name:"Gracjan Antosik",goals:0,assists:0},
     {id:1107,name:"Brian Frątczak",goals:0,assists:0}
 ]},
-{id:12,name:"Fc Pantery",played:6,wins:0,draws:1,losses:5,goalsFor:4,goalsAgainst:21,points:1,players:[
+{id:12,name:"Fc Pantery",played:7,wins:0,draws:1,losses:5,goalsFor:4,goalsAgainst:24,points:1,players:[
     {id:1201,name:"Jakub Gidelski",goals:1,assists:1},{id:1202,name:"Lilianna Kaźmierczak",goals:0,assists:0},
     {id:1203,name:"Nehemiasz Kurzaj",goals:0,assists:0},{id:1204,name:"Bartosz Łukasik",goals:1,assists:0},
     {id:1205,name:"Krystian Dzieran",goals:2,assists:1},{id:1206,name:"Szymon Bocian",goals:0,assists:0},
@@ -163,12 +163,12 @@ const teams=[
     {id:1303,name:"Antoni Mielcarek",goals:1,assists:1},{id:1304,name:"Tymek Kałużny",goals:1,assists:1},
     {id:1305,name:"Wiktor Gawlak",goals:0,assists:1},{id:1306,name:"Łukasz Włodarczyk",goals:0,assists:0},
 ]},
-{id:14,name:"Szczupaki",played:6,wins:0,draws:1,losses:5,goalsFor:1,goalsAgainst:11,points:1,players:[
+{id:14,name:"Szczupaki",played:7,wins:0,draws:1,losses:6,goalsFor:1,goalsAgainst:14,points:1,players:[
     {id:1401,name:"Iwan Kaczmarzyński",goals:0,assists:0},{id:1402,name:"Wiktor Tarnowski",goals:0,assists:0},
     {id:1403,name:"Miłosz Bąkowski",goals:0,assists:0},{id:1404,name:"Hubert Walczak",goals:0,assists:0},
     {id:1405,name:"Marcel Perliński",goals:0,assists:0},{id:1406,name:"Mateusz Fret",goals:0,assists:0},
 ]},
-{id:15,name:"Koty",played:6,wins:1,draws:0,losses:5,goalsFor:3,goalsAgainst:21,points:3,players:[
+{id:15,name:"Koty",played:7,wins:1,draws:0,losses:6,goalsFor:3,goalsAgainst:24,points:3,players:[
     {id:1501,name:"Witek Bączyński",goals:0,assists:0},{id:1502,name:"Aleksander Błaszczyk",goals:1,assists:0},
     {id:1503,name:"Łukasz Burdelak",goals:1,assists:1},{id:1504,name:"Nikita Boriichuh",goals:0,assists:0},
     {id:1505,name:"Franek Ćwikliński",goals:0,assists:0},{id:1506,name:"Rafał Szczepaniak",goals:1,assists:0},
@@ -971,6 +971,7 @@ document.querySelector('[data-view="knockout"]').addEventListener("click", rende
 </script>
 </body>
 </html>
+
 
 
 
